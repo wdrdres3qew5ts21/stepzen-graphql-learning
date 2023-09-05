@@ -1,0 +1,3 @@
+schema @sdl(files: ["employees/index.graphql","extends.graphql","soap/index.graphql"]) {
+  query: Query
+}

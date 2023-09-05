@@ -1,0 +1,69 @@
+type ProductsEntry {
+  category: String
+  description: String
+  id: Int
+  image: String
+  price: Float
+  rating: Rating
+  title: String
+}
+type ProductShort{
+  productId: Int
+  quantity: Int
+}
+
+type Rating {
+  count: Int
+  rate: Float
+}
+
+type CartsEntry {
+  date: DateTime
+  id: Int
+  products: [ProductShort]
+  userId: Int
+}
+
+type WatchDetail @mock {
+  id: Int
+  name: String!
+  description: String
+}
+
+type Query {
+
+  watchDetailAll: [WatchDetail]
+
+  
+
+  carts: [CartsEntry] 
+  @rest(endpoint: "https://fakestoreapi.com/carts")
+
+  productsAll(limit: Int): [ProductsEntry] 
+  @rest(endpoint: "https://fakestoreapi.com/products"
+  ecmascript: """
+    function transformREST(responseData) {
+    // ทำ Filter ถ้าหากมีการส่ง parameter limit มา
+        if(responseData){
+          var limit = get('limit')
+          var data = JSON.parse(responseData)
+          var output = []
+          for (var i=0; i < limit; i++) {
+                  output.push(data[i])
+          }
+          var data = JSON.parse(responseData)
+          return JSON.stringify(data)
+        }
+        // ส่งค่าออกไปไม่ต้อง Filter เพราะไม่มี parameter
+        return responseData
+    }
+    """
+  )
+  productsById(productId: Int): [ProductsEntry] 
+  @rest(endpoint: "https://fakestoreapi.com/products/$productId")
+
+  categoriesAll: [String]
+    @rest(endpoint: "https://fakestoreapi.com/products/categories"
+  )
+
+}

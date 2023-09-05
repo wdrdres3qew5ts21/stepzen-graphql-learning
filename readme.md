@@ -11,7 +11,7 @@ https://fakestoreapi.com/docs
 ระบบ Social Feed
 https://jsonplaceholder.typicode.com/guide/
 
-
+### คำสั่งในการ Import REST API ให้เป็น Structure GraphQL
 
 stepzen import curl https://dummy.restapiexample.com/api/v1/employees --name employees --query-type Employees --query-name employees --path-params '/employees'
 

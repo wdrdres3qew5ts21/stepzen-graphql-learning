@@ -101,3 +101,13 @@ query watchDetailAll {
     }
   }
 }
+
+
+stepzen import mysql
+
+```sql
+SELECT e.emp_no ,e.first_name ,e.last_name, dept_name  from employees e  
+join dept_emp deemp ON deemp.emp_no = e.emp_no JOIN  departments de on de.dept_no = deemp.dept_no  ;
+```
+### Sakila DB สำหรับ MySQL 8
+https://github.com/sakiladb/mysql

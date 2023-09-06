@@ -1,0 +1,95 @@
+type Orders {
+  carrier: String!
+  createdOn: Date!
+  customerId: Int!
+  id: Int!
+  lineitemsCost: Float!
+  productid: Int!
+  shippingCost: Float!
+  tax: Float!
+  trackingId: String!
+}
+
+type Employees {
+  emp_no: Int
+  first_name: String
+  last_name: String
+  dept_name: String
+
+}
+
+
+"""
+The following queries are just a set of examples of how to access your schema.
+Feel free to modify them or aggregate more.
+syntax return array คือการใส่ type ให้มี [Employees] ถ้า Employees เฉยๆ ได้ Object เดียว
+"""
+type Query {
+  " Queries for type 'Orders' "
+
+  employees(emp_no: Int): [Employees]
+  @dbquery(type: "mysql", table: "employees", configuration: "mysql_config", 
+  )
+
+  employeesParameter(emp_no: Int limit: Int): [Employees]
+  @dbquery(type: "mysql", 
+    configuration: "mysql_config",
+    query: "SELECT * from employees.employees e WHERE emp_no = ?  limit ?"
+  )
+
+  # employeesIntelligent(first: Int, after: Int): [Employees]
+  # @dbquery(type: "mysql", 
+  #   configuration: "mysql_config",
+  #   table: "employees"
+  # )
+
+  employeesFullDetailParameter(limit: Int): [Employees]
+  @dbquery(type: "mysql", 
+    configuration: "mysql_config",
+    query: "SELECT e.emp_no ,e.first_name ,e.last_name, dept_name  from employees e  join dept_emp deemp ON deemp.emp_no = e.emp_no JOIN  departments de on de.dept_no = deemp.dept_no  limit ?"
+  )
+
+  orders(id: Int!): Orders
+    @dbquery(type: "mysql", table: "orders", configuration: "mysql_config")
+  ordersList: [Orders]
+    @dbquery(type: "mysql", table: "orders", configuration: "mysql_config")
+  ordersPaginatedList(first: Int!, after: Int!): [Orders]
+    @dbquery(
+      type: "mysql"
+      query: """
+      SELECT `carrier`, `createdOn`, `customerId`, `id`, `lineitemsCost`, `productid`, `shippingCost`, `tax`, `trackingId` FROM `orders` ORDER BY `id` LIMIT ? OFFSET ?
+      """
+      configuration: "mysql_config"
+    )
+}
+
+"""
+The following mutations are just a set of examples of how to access your schema.
+Feel free to modify them or aggregate more.
+"""
+type Mutation {
+  " Mutations for type 'Orders' "
+  deleteOrders(id: Int!): Orders
+    @dbquery(
+      type: "mysql"
+      table: "orders"
+      dml: DELETE
+      configuration: "mysql_config"
+    )
+  insertOrders(
+    lineitemsCost: Float!
+    carrier: String!
+    tax: Float!
+    customerId: Int!
+    trackingId: String!
+    createdOn: Date!
+    shippingCost: Float!
+    productid: Int!
+  ): Orders
+    @dbquery(
+      type: "mysql"
+      table: "orders"
+      dml: INSERT
+      configuration: "mysql_config"
+    )
+}

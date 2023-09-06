@@ -1,6 +1,5 @@
-
 extend type Query {
-  total(price:Float quantity:Int!):Float
+  total(price: Float, quantity: Int!): Float
     @rest(
       endpoint: "stepzen:empty"
       ecmascript: """
@@ -13,20 +12,25 @@ extend type Query {
 }
 
 extend type ProductShort {
-    productDetail: [ProductsEntry]
-         @materializer (
-            query: "productsById", 
-            arguments: {name: "productId", field: "productId"}
-        )
-    total:Float @materializer(
-        query: "total", 
-        arguments: [{name: "quantity", field: "quantity"},  {name: "price", field: "productDetail.price"}])
+  productDetail: [ProductsEntry]
+    @materializer(
+      query: "productsById"
+      arguments: { name: "productId", field: "productId" }
+    )
+  total: Float
+    @materializer(
+      query: "total"
+      arguments: [
+        { name: "quantity", field: "quantity" }
+        { name: "price", field: "productDetail.price" }
+      ]
+    )
 }
 
 extend type CartsEntry {
-    productDetailList: [ProductsEntry]
-         @materializer (
-            query: "productsById", 
-            arguments: {name: "productId", field: "id"}
-        )
+  productDetailList: [ProductsEntry]
+    @materializer(
+      query: "productsById"
+      arguments: { name: "productId", field: "id" }
+    )
 }

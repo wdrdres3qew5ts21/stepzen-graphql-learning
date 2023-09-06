@@ -1,0 +1,13 @@
+type Actor {
+  actor_id: Int
+  first_name: String
+  last_name: String
+  last_update: Date
+
+}
+
+type Query {
+  actorList: [Actor]
+  @dbquery(type: "mysql", table: "actor", configuration: "mysql_sakila_config", 
+  )
+}

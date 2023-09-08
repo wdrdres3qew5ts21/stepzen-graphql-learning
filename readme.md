@@ -111,3 +111,31 @@ join dept_emp deemp ON deemp.emp_no = e.emp_no JOIN  departments de on de.dept_n
 ```
 ### Sakila DB สำหรับ MySQL 8
 https://github.com/sakiladb/mysql
+
+ตัวอย่่าง Syntax Query Sakila
+
+```sql
+SELECT * FROM actor a ;
+SELECT * FROM film f ;
+SELECT * FROM film_actor fa ;
+```
+
+
+#### เชื่อมต่อ Application NodeJS เข้ากับ GraphQL Endpoint
+สามารถทำได้กันสองแบบคือการเรียกผ่าน CURL HTTP Endpoint เข้าไปโดยตรงหรือจะผ่าน Library ที่มีการจั
+https://stepzen.com/docs/connecting-frontends/connecting-via-nodejs
+
+```
+yarn add graphql-request
+```
+
+### GraphQL สามารถใช้ Socket  Subscription ได้ผ่าน Socket
+https://the-guild.dev/graphql/ws/get-started
+ซึ่งสามารถเรียกใช้ Parameter Filter ได้เหมือนกัน
+แล้วค่าที่เปลีย่นไปก็จะอัพเดทตามทุกๆสิบวินาที
+
+```
+yarn add graphql-ws
+yarn add ws
+```
+

@@ -8,6 +8,23 @@ type Actor {
 
 type Query {
   actorList: [Actor]
-  @dbquery(type: "mysql", table: "actor", configuration: "mysql_sakila_config", 
+  @dbquery(type: "mysql", configuration: "mysql_sakila_config", 
+  query: "select * from actor limit 1"
   )
+
+  actorListParameter(first: Int!, after: Int!): [Actor]
+  @dbquery(type: "mysql", configuration: "mysql_sakila_config", 
+  query: "select * from actor limit ? offset ?"
+  )
+
+}
+
+type Subscription {
+
+    actorListSub: [Actor] 
+    @materializer (query: "actorList" )
+
+    actorListParameterSub(first: Int!, after: Int!): [Actor] 
+    @materializer (query: "actorListParameter" )
+
 }
